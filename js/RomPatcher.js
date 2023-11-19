@@ -245,7 +245,7 @@ var UI={
 
 var AppSettings={
 	langCode:(typeof navigator.userLanguage==='string')? navigator.userLanguage.substr(0,2) : 'en',
-	outputFileNameMatch:false,
+	outputFileNameMatch:true,
 	fixChecksum:false,
 	lightTheme:false,
 
@@ -522,6 +522,7 @@ function hasHeader(romFile){
 
 
 function updateChecksums(file, startOffset, force){
+	force = true;
 	if(file===romFile && file.fileSize>33554432 && !force){
 		el('crc32').innerHTML='File is too big. <span onclick=\"updateChecksums(romFile,'+startOffset+',true)\">Force calculate checksum</span>';
 		el('md5').innerHTML='';
@@ -697,6 +698,7 @@ function preparePatchedRom(originalRom, patchedRom, headerSize){
 	}else{
 		patchedRom.fileName=originalRom.fileName.replace(/\.([^\.]*?)$/, ' (patched).$1');
 	}
+	patchedRom.fileName = patchedRom.fileName.replace(".vpk", ".z64");
 	patchedRom.fileType=originalRom.fileType;
 	if(headerSize){
 		if(el('checkbox-removeheader').checked){
